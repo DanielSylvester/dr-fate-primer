@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://dr-fate.dev/schemas/run.json",
+  "title": "Run",
+  "description": "An orchestrated workflow execution",
+  "type": "object",
+  "required": ["id", "account_id", "workflow", "status", "mode", "started_at"],
+  "properties": {
+    "id": { "type": "string" },
+    "account_id": { "type": "string" },
+    "workflow": { "type": "string", "description": "e.g., 'google-ads-daily-agent'" },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "planning", "deciding", "executing", "learning", "completed", "failed", "cancelled"]
+    },
+    "mode": { "type": "string", "enum": ["observe", "hybrid", "execute"] },
+    "started_at": { "type": "string", "format": "date-time" },
+    "completed_at": { "type": "string", "format": "date-time" },
+    "context_tokens": { "type": "integer" },
+    "model": { "type": "string" },
+    "cost_usd": { "type": "number" },
+    "decisions": { "type": "array", "items": { "$ref": "decision.json" } },
+    "actions": { "type": "array", "items": { "$ref": "action.json" } },
+    "outcomes": { "type": "array", "items": { "$ref": "outcome.json" } },
+    "error": { "type": ["string", "null"] }
+  }
+}

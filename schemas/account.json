@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://dr-fate.dev/schemas/account.json",
+  "title": "Account",
+  "description": "Multi-tenant account configuration",
+  "type": "object",
+  "required": ["id", "name", "currency", "timezone", "mode"],
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+    "timezone": { "type": "string" },
+    "mode": { "type": "string", "enum": ["observe", "hybrid", "execute"] },
+    "platforms": {
+      "type": "object",
+      "properties": {
+        "google-ads": {
+          "type": "object",
+          "properties": {
+            "customer_id": { "type": "string" },
+            "login_customer_id": { "type": "string" }
+          }
+        },
+        "meta-ads": {
+          "type": "object",
+          "properties": {
+            "account_id": { "type": "string" },
+            "token_env": { "type": "string" }
+          }
+        },
+        "linkedin-ads": {
+          "type": "object",
+          "properties": {
+            "account_id": { "type": "string" },
+            "token_env": { "type": "string" }
+          }
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "properties": {
+        "budget_band": { "type": "number" },
+        "protected_terms": { "type": "array", "items": { "type": "string" } },
+        "competitor_terms": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "workflows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "cron": { "type": "string" },
+          "mode": { "type": "string", "enum": ["observe", "hybrid", "execute"] }
+        }
+      }
+    }
+  }
+}

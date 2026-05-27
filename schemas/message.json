@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://dr-fate.dev/schemas/message.json",
+  "title": "Message",
+  "description": "Inter-service message envelope — the Unix pipe of Dr. Fate",
+  "type": "object",
+  "required": ["msg_id", "timestamp", "source", "target", "type", "version"],
+  "properties": {
+    "msg_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique message identifier"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the message was created"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["orchestrator", "memory", "executor", "cli", "cron", "webhook"],
+      "description": "Service that created this message"
+    },
+    "target": {
+      "type": "string",
+      "enum": ["orchestrator", "memory", "executor", "broadcast"],
+      "description": "Intended recipient. 'broadcast' goes to all subscribers."
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "QUERY_REQUEST", "QUERY_RESPONSE",
+        "DECISION_PROPOSAL", "DECISION_ACK",
+        "COMMAND_REQUEST", "COMMAND_RESPONSE",
+        "AUDIT_LOG", "AUDIT_ACK",
+        "SCHEDULE_TRIGGER", "SCHEDULE_ACK",
+        "FEEDBACK_INGEST", "FEEDBACK_ACK",
+        "RUN_STARTED", "RUN_COMPLETED", "RUN_FAILED",
+        "ERROR", "HEARTBEAT"
+      ],
+      "description": "Message type — defines the contract for payload"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$",
+      "description": "API version, e.g. '1.0'"
+    },
+    "correlation_id": {
+      "type": "string",
+      "description": "Ties related messages together (e.g., all messages for a single run)"
+    },
+    "account_id": {
+      "type": "string",
+      "description": "Tenant identifier. All messages in multi-tenant contexts must include this."
+    },
+    "payload": {
+      "type": "object",
+      "description": "Type-specific payload. See CONTRACTS.md for per-type schemas."
+    }
+  },
+  "additionalProperties": false
+}

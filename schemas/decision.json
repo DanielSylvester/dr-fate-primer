@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://dr-fate.dev/schemas/decision.json",
+  "title": "Decision",
+  "description": "A proposed action from the orchestrator",
+  "type": "object",
+  "required": ["id", "run_id", "type", "target", "confidence", "reasoning"],
+  "properties": {
+    "id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "type": {
+      "type": "string",
+      "enum": ["NEGATE", "BUDGET", "PAUSE", "RESUME", "CREATE", "UPDATE", "NOOP"]
+    },
+    "target": { "type": "string", "description": "Campaign ID, keyword, etc." },
+    "payload": { "type": "object" },
+    "confidence": { "type": "string", "enum": ["low", "medium", "high"] },
+    "reasoning": { "type": "string" },
+    "safety_checks": {
+      "type": "array",
+      "items": { "$ref": "safety.json" }
+    }
+  }
+}

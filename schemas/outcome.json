@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://dr-fate.dev/schemas/outcome.json",
+  "title": "Outcome",
+  "description": "Measured result of an executed action",
+  "type": "object",
+  "required": ["id", "action_id", "metric", "before", "after", "horizon_days"],
+  "properties": {
+    "id": { "type": "string" },
+    "action_id": { "type": "string" },
+    "metric": { "type": "string", "description": "e.g., 'ctr', 'cpl', 'conversion_rate'" },
+    "before": { "type": "number" },
+    "after": { "type": "number" },
+    "delta_pct": { "type": "number" },
+    "measured_at": { "type": "string", "format": "date-time" },
+    "horizon_days": { "type": "integer" }
+  }
+}
